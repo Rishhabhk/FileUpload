@@ -6,11 +6,9 @@ const cloudinary = require("cloudinary").v2
 exports.localFileUpload = async (req, res) => {
     try {
         const file = req.files.file;
-        console.log("file  - ", file);
 
         let path = __dirname + "/files/" + Date.now() + `.${file.name.split('.')[1]}`;
 
-        console.log("path - ", path);
 
         file.mv(path, (error) => {
             console.log(error);
@@ -49,12 +47,10 @@ exports.imageUpload = async (req, res) => {
     try {
         const { name, tags, email } = req.body;
         const file = req.files.imageFile;
-        console.log(file);
 
         const supportedTypes = ["jpg", "jpeg", "png"];
         const fileType = file.name.split('.')[1].toLowerCase();
 
-        console.log("fileType --- ", fileType);
         if (!isFileTypeSupported(fileType, supportedTypes)) {
             return res.status(400).json({
                 success: false,
@@ -64,7 +60,6 @@ exports.imageUpload = async (req, res) => {
 
         const response = await uploadFileToCloudinary(file, "FirstFolder");
 
-        console.log("response ------", response);
 
         const fileData = await File.create({
             name, tags, email, fileUrl: response.secure_url
@@ -104,7 +99,6 @@ exports.videoUpload = async (req, res) => {
 
         const response = await uploadFileToCloudinary(file, "FirstFolder");
 
-        console.log("response ------", response);
 
         const fileData = await File.create({
             name, tags, email, fileUrl: response.secure_url
@@ -131,12 +125,10 @@ exports.reducedImageUpload = async (req, res) => {
     try {
         const { name, tags, email } = req.body;
         const file = req.files.imageFile;
-        console.log(file);
 
         const supportedTypes = ["jpg", "jpeg", "png"];
         const fileType = file.name.split('.')[1].toLowerCase();
 
-        console.log("fileType --- ", fileType);
         if (!isFileTypeSupported(fileType, supportedTypes)) {
             return res.status(400).json({
                 success: false,
@@ -146,7 +138,6 @@ exports.reducedImageUpload = async (req, res) => {
 
         const response = await uploadFileToCloudinary(file, "FirstFolder" ,100);
 
-        console.log("response ------", response);
 
         const fileData = await File.create({
             name, tags, email, fileUrl: response.secure_url
